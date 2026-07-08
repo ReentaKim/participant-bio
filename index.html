@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 실습 워크샵 — 참석자 소개</title>
+<style>
+:root {
+  --paper: #f7f4ed;
+  --paper-deep: #efeae0;
+  --ink: #191c1f;
+  --ink-soft: #4b5157;
+  --line: #d9d2c4;
+  --accent: #e8490f;
+  --accent-soft: #fbe3d8;
+  --go: #0d7a5f;
+  --go-soft: #dcefe8;
+  --code-bg: #22262a;
+  --code-ink: #e8e4da;
+  --radius: 14px;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --sans: 'IBM Plex Sans KR', sans-serif;
+  --disp: 'Hahmlet', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  font-size: 16px;
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.locked-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+.locked-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lock-box {
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 8px 8px 0 rgba(25, 28, 31, 0.15);
+}
+
+.lock-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+
+.lock-box h1 {
+  font-family: var(--disp);
+  font-size: 28px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.lock-box p {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 16px;
+  margin-bottom: 16px;
+  background: var(--paper-deep);
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+
+.unlock-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 15px;
+}
+
+.unlock-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--accent);
+}
+
+.unlock-btn:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 12px;
+  display: none;
+}
+
+.error.show {
+  display: block;
+}
+
+/* Main content */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 244, 237, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--ink);
+}
+
+.topbar-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar .badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+.topbar .logout-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.topbar .logout-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 20px 32px;
+}
+
+.hero h1 {
+  font-family: var(--disp);
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 900;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+.bio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.bio-card {
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.bio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 rgba(25, 28, 31, 0.12);
+}
+
+.bio-card.submitted {
+  border-left: 5px solid var(--go);
+}
+
+.bio-card.missing {
+  border-left: 5px solid var(--line);
+  background: var(--paper-deep);
+}
+
+.bio-name {
+  font-family: var(--disp);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.bio-status {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.bio-status.docx {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.bio-status.pdf {
+  background: var(--go-soft);
+  color: var(--go);
+}
+
+.bio-status.none {
+  background: var(--paper);
+  color: var(--ink-soft);
+}
+
+.bio-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 8px;
+}
+
+.bio-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bio-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bio-content::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+
+.bio-link {
+  display: inline-block;
+  font-size: 13px;
+  padding: 6px 12px;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.bio-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+footer {
+  border-top: 2px solid var(--ink);
+  margin-top: 40px;
+  padding: 28px 20px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 640px) {
+  .bio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lock-box {
+    padding: 40px 24px;
+    margin: 20px;
+  }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;700;900&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="locked-screen" id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h1>접근 보호</h1>
+    <p>개인 자기소개서 콘텐츠입니다.<br>패스워드를 입력하세요.</p>
+    <input type="password" class="password-input" id="passwordInput" placeholder="패스워드 입력" autofocus>
+    <button class="unlock-btn" onclick="checkPassword()">열기</button>
+    <div class="error" id="errorMsg">패스워드가 맞지 않습니다</div>
+  </div>
+</div>
+
+<div class="topbar" style="display: none;" id="topbar">
+  <div class="topbar-inner">
+    <span class="badge">MOBILITY LAB WORKSHOP</span>
+    <span style="flex: 1;"></span>
+    <button class="logout-btn" onclick="logout()">로그아웃</button>
+  </div>
+</div>
+
+<section class="hero" style="display: none;" id="heroSection">
+  <h1>참석자 소개</h1>
+  <p>2026년 7월 9일 · AI Agent 실습 워크샵 · 총 15명</p>
+</section>
+
+<main style="display: none;" id="mainContent">
+  <div class="bio-grid" id="bioGrid"></div>
+</main>
+
+<footer style="display: none;" id="footer">
+  MABA INDUSTRY · MOBILITY LAB · AI AGENT WORKSHOP 2026<br>
+  ⚠️ 개인정보 보호: 이 페이지는 패스워드로 보호되며, 내용은 워크샵 참석자만을 위한 것입니다.
+</footer>
+
+<script>
+const CORRECT_PASSWORD = "maba";
+const biographyData = [
+  {"name": "구효정", "type": "none", "content": "[자기소개서 미제출]"},
+  {"name": "김경민", "type": "none", "content": "[자기소개서 미제출]"},
+  {"name": "김대주", "type": "docx", "content": "MABA 모빌리티 연구소에서 근무하고 있습니다. 다양한 모빌리티 서비스 개발과 운영에 참여하고 있으며, AI 기술이 모빌리티 산업에 미치는 영향에 관심이 있습니다. 이번 워크샵을 통해 AI 에이전트의 실제 활용 방안을 배우고자 참가하게 되었습니다."},
+  {"name": "김수비", "type": "docx", "content": "기획팀에서 근무 중입니다. 신규 서비스 기획과 프로젝트 관리를 담당하고 있으며, 자동화 도구를 통한 업무 효율성 향상에 관심이 있습니다. AI 에이전트가 기획 프로세스를 어떻게 개선할 수 있을지 궁금해서 참석하게 되었습니다."},
+  {"name": "김은지", "type": "pdf", "content": "[PDF 자기소개서 - 다운로드 링크 제공]"},
+  {"name": "김현영", "type": "docx", "content": "개발팀의 리드 개발자로 근무 중입니다. Python과 JavaScript를 주로 사용하며, 최근에는 자동화와 생산성 도구 개발에 관심을 가지고 있습니다. 이번 기회를 통해 AI 에이전트 기술을 프로젝트에 적용하는 방법을 학습하고자 합니다."},
+  {"name": "손윤", "type": "docx", "content": "운영팀에서 일하고 있습니다. 일일 운영 데이터 정리, 보고서 작성 등 반복적인 작업이 많아서 자동화에 높은 관심을 가지고 있습니다. AI 에이전트를 통해 이런 업무들을 개선할 수 있을 것 같아 워크샵에 참가합니다."},
+  {"name": "안호성", "type": "none", "content": "[자기소개서 미제출]"},
+  {"name": "이서연", "type": "pdf", "content": "[PDF 자기소개서 - 다운로드 링크 제공]"},
+  {"name": "이수호", "type": "docx", "content": "UX/UI 디자인을 담당하고 있습니다. 사용자 리서치와 디자인 시스템 구축에 집중하고 있으며, 최근에는 AI를 활용한 디자인 자동화에 관심이 생겼습니다. 이번 워크샵이 좋은 학습 기회가 될 것 같습니다."},
+  {"name": "이승병", "type": "pdf", "content": "[PDF 자기소개서 - 다운로드 링크 제공]"},
+  {"name": "이혁", "type": "docx", "content": "프로덕트 매니저로 근무 중입니다. 서비스 로드맵 작성, 사용자 피드백 분석 등 다양한 업무를 하고 있습니다. AI 에이전트가 제품 개발 프로세스를 어떻게 지원할 수 있을지 탐색하고 싶어 참가하게 되었습니다."},
+  {"name": "임완", "type": "none", "content": "[자기소개서 미제출]"},
+  {"name": "조소은", "type": "docx", "content": "마케팅팀에서 캠페인 기획과 실행을 담당하고 있습니다. 시장 분석, 콘텐츠 제작 등 창의적 작업과 함께 데이터 정리, 보고서 작성 등의 일상적 업무가 있습니다. AI 기술로 두 영역의 업무를 어떻게 개선할 수 있을지 배우고 싶습니다."},
+  {"name": "최은지", "type": "pdf", "content": "[PDF 자기소개서 - 다운로드 링크 제공]"}
+];
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const errorMsg = document.getElementById("errorMsg");
+
+  if (input === CORRECT_PASSWORD) {
+    unlock();
+  } else {
+    errorMsg.classList.add("show");
+    document.getElementById("passwordInput").value = "";
+    setTimeout(() => errorMsg.classList.remove("show"), 3000);
+  }
+}
+
+function unlock() {
+  const lockScreen = document.getElementById("lockScreen");
+  lockScreen.classList.add("hidden");
+
+  document.getElementById("topbar").style.display = "block";
+  document.getElementById("heroSection").style.display = "block";
+  document.getElementById("mainContent").style.display = "block";
+  document.getElementById("footer").style.display = "block";
+
+  renderBiographies();
+  localStorage.setItem("workshopUnlocked", "true");
+}
+
+function logout() {
+  localStorage.removeItem("workshopUnlocked");
+  location.reload();
+}
+
+function renderBiographies() {
+  const grid = document.getElementById("bioGrid");
+  grid.innerHTML = "";
+
+  biographyData.forEach(bio => {
+    const card = document.createElement("div");
+    card.className = "bio-card " + (bio.type === "none" ? "missing" : "submitted");
+
+    let statusText = "";
+    if (bio.type === "docx") statusText = "텍스트 전문";
+    else if (bio.type === "pdf") statusText = "PDF 파일";
+    else statusText = "미제출";
+
+    let contentHTML = `<div class="bio-content">${escapeHtml(bio.content)}</div>`;
+    let actionHTML = "";
+
+    if (bio.type === "pdf") {
+      actionHTML = `<a class="bio-link" href="/participant-bio/pdfs/${bio.name}.pdf" target="_blank">📄 PDF 보기</a>`;
+    }
+
+    card.innerHTML = `
+      <div class="bio-name">${escapeHtml(bio.name)}</div>
+      <span class="bio-status ${bio.type}">${statusText}</span>
+      ${contentHTML}
+      ${actionHTML}
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Check if already unlocked
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("passwordInput").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") checkPassword();
+  });
+
+  if (localStorage.getItem("workshopUnlocked") === "true") {
+    unlock();
+  }
+});
+</script>
+</body>
+</html>
