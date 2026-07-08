@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Agent 실습 워크샵 — 참석자 소개</title>
+<title>AI Agent 실습 워크샵 — 참석자 자기소개서</title>
 <style>
 :root {
   --paper: #f7f4ed;
@@ -65,23 +65,9 @@ body {
   box-shadow: 8px 8px 0 rgba(25, 28, 31, 0.15);
 }
 
-.lock-icon {
-  font-size: 56px;
-  margin-bottom: 20px;
-}
-
-.lock-box h1 {
-  font-family: var(--disp);
-  font-size: 28px;
-  margin-bottom: 12px;
-  font-weight: 700;
-}
-
-.lock-box p {
-  color: var(--ink-soft);
-  font-size: 14px;
-  margin-bottom: 28px;
-}
+.lock-icon { font-size: 56px; margin-bottom: 20px; }
+.lock-box h1 { font-family: var(--disp); font-size: 28px; margin-bottom: 12px; font-weight: 700; }
+.lock-box p { color: var(--ink-soft); font-size: 14px; margin-bottom: 28px; }
 
 .password-input {
   width: 100%;
@@ -113,14 +99,7 @@ body {
   font-size: 15px;
 }
 
-.unlock-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 4px 4px 0 var(--accent);
-}
-
-.unlock-btn:active {
-  transform: translateY(0);
-}
+.unlock-btn:hover { transform: translateY(-2px); box-shadow: 4px 4px 0 var(--accent); }
 
 .error {
   color: #d32f2f;
@@ -129,9 +108,7 @@ body {
   display: none;
 }
 
-.error.show {
-  display: block;
-}
+.error.show { display: block; }
 
 /* Main content */
 .topbar {
@@ -144,7 +121,7 @@ body {
 }
 
 .topbar-inner {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 12px 20px;
   display: flex;
@@ -182,7 +159,7 @@ body {
 }
 
 .hero {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 48px 20px 32px;
 }
@@ -201,23 +178,27 @@ body {
 }
 
 main {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px 60px;
 }
 
 .bio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
 }
 
 .bio-card {
   background: #fff;
   border: 1.5px solid var(--ink);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 16px;
+  cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .bio-card:hover {
@@ -225,30 +206,32 @@ main {
   box-shadow: 4px 4px 0 rgba(25, 28, 31, 0.12);
 }
 
-.bio-card.submitted {
-  border-left: 5px solid var(--go);
+.bio-card.missing {
+  background: var(--paper-deep);
+  cursor: default;
 }
 
-.bio-card.missing {
-  border-left: 5px solid var(--line);
-  background: var(--paper-deep);
+.bio-card.missing:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .bio-name {
   font-family: var(--disp);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
 }
 
 .bio-status {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 6px;
-  margin-bottom: 12px;
+  width: fit-content;
 }
 
 .bio-status.docx {
@@ -266,44 +249,88 @@ main {
   color: var(--ink-soft);
 }
 
-.bio-content {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 12px;
-  padding-right: 8px;
+/* Modal / Viewer */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.bio-content::-webkit-scrollbar {
-  width: 6px;
+.modal.active {
+  display: flex;
 }
 
-.bio-content::-webkit-scrollbar-track {
-  background: transparent;
+.modal-content {
+  background: #fff;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.bio-content::-webkit-scrollbar-thumb {
-  background: var(--line);
-  border-radius: 3px;
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1.5px solid var(--line);
 }
 
-.bio-link {
-  display: inline-block;
-  font-size: 13px;
-  padding: 6px 12px;
-  background: var(--ink);
-  color: #fff;
-  text-decoration: none;
+.modal-title {
+  font-family: var(--disp);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: none;
+  border: 1.5px solid var(--ink);
   border-radius: 8px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.15s;
-  font-weight: 500;
 }
 
-.bio-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 var(--accent);
+.modal-close:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.viewer-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+}
+
+.no-file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--ink-soft);
+  font-style: italic;
+  text-align: center;
 }
 
 footer {
@@ -314,7 +341,7 @@ footer {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink-soft);
-  max-width: 1000px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -327,6 +354,10 @@ footer {
   .lock-box {
     padding: 40px 24px;
     margin: 20px;
+  }
+
+  .modal-content {
+    max-height: 95vh;
   }
 }
 </style>
@@ -356,13 +387,25 @@ footer {
 </div>
 
 <section class="hero" style="display: none;" id="heroSection">
-  <h1>참석자 소개</h1>
+  <h1>참석자 자기소개서</h1>
   <p>2026년 7월 9일 · AI Agent 실습 워크샵 · 총 15명</p>
 </section>
 
 <main style="display: none;" id="mainContent">
   <div class="bio-grid" id="bioGrid"></div>
 </main>
+
+<div class="modal" id="viewerModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">자기소개서</div>
+      <button class="modal-close" onclick="closeViewer()">닫기</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="no-file">로드 중...</div>
+    </div>
+  </div>
+</div>
 
 <footer style="display: none;" id="footer">
   MABA INDUSTRY · MOBILITY LAB · AI AGENT WORKSHOP 2026<br>
@@ -371,7 +414,23 @@ footer {
 
 <script>
 const CORRECT_PASSWORD = "maba";
-let biographyData = {};
+const participants = [
+  { name: "구효정", type: "none" },
+  { name: "김경민", type: "none" },
+  { name: "김대주", type: "docx" },
+  { name: "김수비", type: "docx" },
+  { name: "김은지", type: "pdf" },
+  { name: "김현영", type: "docx" },
+  { name: "손윤", type: "docx" },
+  { name: "안호성", type: "none" },
+  { name: "이서연", type: "pdf" },
+  { name: "이수호", type: "docx" },
+  { name: "이승병", type: "pdf" },
+  { name: "이혁", type: "docx" },
+  { name: "임완", type: "none" },
+  { name: "조소은", type: "docx" },
+  { name: "최은지", type: "pdf" }
+].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
 
 function checkPassword() {
   const input = document.getElementById("passwordInput").value;
@@ -408,69 +467,79 @@ function renderBiographies() {
   const grid = document.getElementById("bioGrid");
   grid.innerHTML = "";
 
-  const names = Object.keys(biographyData).sort();
-
-  names.forEach(name => {
-    const bio = biographyData[name];
+  participants.forEach(participant => {
     const card = document.createElement("div");
-    card.className = "bio-card " + (bio.type === "none" ? "missing" : "submitted");
+    card.className = "bio-card" + (participant.type === "none" ? " missing" : "");
 
+    let statusEmoji = "";
     let statusText = "";
-    if (bio.type === "docx") statusText = "텍스트 전문";
-    else if (bio.type === "pdf") statusText = "PDF 파일";
-    else statusText = "미제출";
 
-    let contentHTML = "";
-    if (bio.content) {
-      contentHTML = `<div class="bio-content">${escapeHtml(bio.content)}</div>`;
-    } else if (bio.type === "pdf") {
-      contentHTML = `<div class="bio-content" style="color: var(--ink-soft); font-style: italic;">PDF 파일로 제공됩니다</div>`;
-    } else if (bio.type === "none") {
-      contentHTML = `<div class="bio-content" style="color: var(--ink-soft); font-style: italic;">자기소개서 미제출</div>`;
+    if (participant.type === "docx") {
+      statusEmoji = "📄";
+      statusText = "Word";
+    } else if (participant.type === "pdf") {
+      statusEmoji = "📄";
+      statusText = "PDF";
+    } else {
+      statusText = "미제출";
     }
 
-    let actionHTML = "";
-    if (bio.type === "pdf") {
-      actionHTML = `<a class="bio-link" href="./pdfs/${name}.pdf" target="_blank">📄 PDF 다운로드</a>`;
-    }
+    const statusHTML = participant.type !== "none"
+      ? `<span class="bio-status ${participant.type}">${statusEmoji} ${statusText}</span>`
+      : `<span class="bio-status none">${statusText}</span>`;
 
     card.innerHTML = `
-      <div class="bio-name">${escapeHtml(name)}</div>
-      <span class="bio-status ${bio.type}">${statusText}</span>
-      ${contentHTML}
-      ${actionHTML}
+      <div class="bio-name">${participant.name}</div>
+      ${statusHTML}
     `;
+
+    if (participant.type !== "none") {
+      card.onclick = () => openViewer(participant);
+    }
 
     grid.appendChild(card);
   });
 }
 
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
+function openViewer(participant) {
+  const modal = document.getElementById("viewerModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+
+  modalTitle.textContent = participant.name;
+
+  const fileUrl = `./files/${participant.name}.${participant.type}`;
+  const encodedUrl = encodeURIComponent(fileUrl);
+
+  // Google Docs Viewer를 사용
+  const viewerUrl = `https://docs.google.com/gview?url=${window.location.origin}/participant-bio/files/${participant.name}.${participant.type}&embedded=true`;
+
+  modalBody.innerHTML = `<iframe class="viewer-iframe" src="${viewerUrl}" frameborder="0"></iframe>`;
+  modal.classList.add("active");
 }
 
-// Load biography data from JSON
-async function loadBiographies() {
-  try {
-    const response = await fetch("./data.json");
-    biographyData = await response.json();
-    if (localStorage.getItem("workshopUnlocked") === "true") {
-      renderBiographies();
-    }
-  } catch (e) {
-    console.error("Failed to load biography data:", e);
+function closeViewer() {
+  document.getElementById("viewerModal").classList.remove("active");
+}
+
+// 모달 외부 클릭 시 닫기
+document.getElementById("viewerModal").addEventListener("click", (e) => {
+  if (e.target.id === "viewerModal") {
+    closeViewer();
   }
-}
+});
 
-// Check if already unlocked
+// ESC 키로 닫기
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeViewer();
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("passwordInput").addEventListener("keypress", (e) => {
     if (e.key === "Enter") checkPassword();
   });
-
-  loadBiographies();
 
   if (localStorage.getItem("workshopUnlocked") === "true") {
     unlock();
